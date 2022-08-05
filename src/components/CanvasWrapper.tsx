@@ -58,6 +58,6 @@ export const CanvasWrapper = () => {
         <Canvas name="my_canvas" draw={getDraw} width={width} height={height}></Canvas>
         </div>
     );
-}
+};
 
 export default CanvasWrapper;

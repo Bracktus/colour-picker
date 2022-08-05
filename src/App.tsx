@@ -1,5 +1,5 @@
 import CanvasWrapper from "./components/CanvasWrapper";
-import { ColourPanel } from "./components/ColourPanel";
+import { ColourPanel } from "./components/ColourPanel/ColourPanel";
 import "./css/App.css";
 
 const App = () => {

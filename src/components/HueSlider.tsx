@@ -1,8 +1,7 @@
-
 interface HueSliderProps {
     width: number;
-    hue: number;    
-    onChange: React.ChangeEventHandler<HTMLInputElement>;
+    hue: number;
+    onChange: React.Dispatch<React.SetStateAction<number>>;
 }
 
 export const HueSlider = ({hue, onChange, width}: HueSliderProps) => {
@@ -12,5 +11,7 @@ export const HueSlider = ({hue, onChange, width}: HueSliderProps) => {
         width: width
     }
 
-    return <input type="range" onChange={onChange} value={hue} max={360} style={style} step={1}></input>
+    return <input type="range" onChange={e => onChange(parseInt(e.target.value))} value={hue} max={360} style={style} step="0.1"></input>
 }
+
+export default HueSlider;
