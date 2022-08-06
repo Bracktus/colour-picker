@@ -1,5 +1,9 @@
 export const getHexString = (r: number, g: number, b: number) => {
-    const hexCode = [r, g, b].map(v => Math.round(v).toString(16)).join("");
+    const decToHex = (num: number) => { 
+        const x = Math.round(num).toString(16);
+        return x.length > 1 ? x : `0${x}`;
+    };
+    const hexCode = [r, g, b].map(decToHex).join("");
     return `#${hexCode}`;
 };
 
@@ -7,10 +11,6 @@ export const formatColour = (prefix: string, values: number[]) => {
     const rounded = values.map(v => v.toFixed(3));
     return `${prefix}(${rounded[0]}, ${rounded[1]}, ${rounded[2]})`
 };
-
-//Hue is the slider
-//Sat is x value
-//val is y value
 
 export const HSVtoRGB = (hue: number, sat: number, val: number) => {
     // hue - [0, 360]

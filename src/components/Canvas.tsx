@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from "react"
 
-
 interface CanvasProps {
     name: string;
     width?: number;
@@ -11,12 +10,10 @@ interface CanvasProps {
 
 const nop = () => undefined;
 
-
 export const Canvas: React.FC<CanvasProps> = ({name, width, height, draw, onClick = nop}) => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const [context, setContext] = useState<CanvasRenderingContext2D | null>(null);
     const [mouseDown, setMouseDown] = useState(false);
-
 
     useEffect(() => {
         if (canvasRef.current){

@@ -1,13 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
-import Canvas from "./Canvas";
-import { HueSlider } from "./HueSlider";
+import { EventListnerFunc, getFromStorage, setStorage, useOutsideAlerter } from "./helpers";
+import Canvas from "../Canvas";
+import HueSlider from "../HueSlider";
 
 const divStyle = {
     display: "flex",
     flexFlow: "column wrap"
 };
-
-type EventListnerFunc = (event: MouseEvent) => void
 
 interface MousePosition {
     x: number,
@@ -17,40 +16,43 @@ interface MousePosition {
 interface PickerProps {
     onOutsideClick: EventListnerFunc;
     onChange: Function;
-    rgbString: string
+    id: number;
 };
 
-const useOutsideAlerter = (ref: React.RefObject<HTMLDivElement> , handleOutsideClick: EventListnerFunc ) => {
-    useEffect(() => {
-      const handler: EventListnerFunc = event => {
-        if (ref.current && !ref.current.contains(event.target as Node)) {
-          handleOutsideClick(event);
+export const Picker: React.FC<PickerProps> = ({onOutsideClick, onChange, id}) => {
+    const width = 300;
+    const height = 300;
+
+    /* 
+    Here we're retriving state from session storage.
+    I'm no sure if the is the best solution, but it's hard to store the state in
+    the parent because we end up in an infinite loop if we
+    update child -> pass state up to parent -> cause parent refresh -> update child
+
+    We'll also run into issues of assigning unique id's to each list and keeping the state
+    consistent. We could make the storage one big object instead, but the deserialising
+    might get a bit complex (and expensive);
+    */
+    const defaultHSV = [180, width/2, height/2];
+    const [hue, setHue] = useState(getFromStorage(id, defaultHSV)[0]);
+    const [cursorPos, setCursorPos] = useState<MousePosition>(
+        { 
+          x: getFromStorage(id, defaultHSV)[1],
+          y: getFromStorage(id, defaultHSV)[2]
         }
-      }
-
-      document.addEventListener("mousedown", handler);
-      return () => {
-        document.removeEventListener("mousedown", handler);
-      };
-    }, [ref, handleOutsideClick]);
-};
-
-export const Picker: React.FC<PickerProps> = ({onOutsideClick, onChange}) => {
-    const width = 800;
-    const height = 800;
-
-    const [hue, setHue] = useState(180);
-    const [cursorPos, setCursorPos] = useState<MousePosition>({x: width/2, y:height/2});
+    );
 
     const containerRef = useRef<HTMLDivElement>(null);
     useOutsideAlerter(containerRef, onOutsideClick);
-
+    
     useEffect(() => {
         const clamp = (num: number) => Math.max(Math.min(num, 1), 0);
         const sat = clamp(cursorPos.x / width);
         const val = clamp((height - cursorPos.y) / height);
+
+        setStorage(id, [hue, cursorPos.x, cursorPos.y]);
         onChange(hue, sat, val)
-    }, [hue, cursorPos, onChange])
+    }, [hue, cursorPos, onChange, id])
 
     const draw = (context: CanvasRenderingContext2D) => {
        context.fillStyle = `hsl(${hue}, 100%, 50%)`;
