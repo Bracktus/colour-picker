@@ -14,14 +14,11 @@ interface ColourPanelProps {
 export const ColourPanel: React.FC<ColourPanelProps> = ({id}) => {
     const [RGB, setRGB] = useState([0, 0, 0]);
     const [HSV, setHSV] = useState([0, 0, 0]);
-    const [hexString, setHexString] = useState("");
     const [showPicker, setShowPicker] = useState(true);
 
     const pickerOnChange = useCallback((h: number, s: number, v: number)  => {
         setHSV([h,s,v]);
-        const [r, g, b] = HSVtoRGB(h,s,v);
-        setRGB([r, g, b]);
-        setHexString(getHexString(r, g, b));
+        setRGB(HSVtoRGB(h,s,v));
     }, []);
 
     return (
@@ -32,7 +29,7 @@ export const ColourPanel: React.FC<ColourPanelProps> = ({id}) => {
                         id={id}
                 />
             }
-            <p>{hexString}</p>
+            <p>{getHexString(RGB[0], RGB[1], RGB[2])}</p>
             <Swatch colourString={formatColour("rgb", RGB)}
                     onClick={() => setShowPicker(true)}/>
             <p>{formatColour("hsv", HSV)}</p>
