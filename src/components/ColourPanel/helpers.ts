@@ -1,11 +1,16 @@
-//Hue is the slider
-//Sat is x value
-//val is y value
+export const getHexString = (r: number, g: number, b: number) => {
+    const hexCode = [r, g, b].map(v => Math.round(v).toString(16)).join("");
+    return `#${hexCode}`;
+};
 
 export const formatColour = (prefix: string, values: number[]) => {
     const rounded = values.map(v => v.toFixed(3));
     return `${prefix}(${rounded[0]}, ${rounded[1]}, ${rounded[2]})`
 };
+
+//Hue is the slider
+//Sat is x value
+//val is y value
 
 export const HSVtoRGB = (hue: number, sat: number, val: number) => {
     // hue - [0, 360]
@@ -59,4 +64,4 @@ export const RGBtoHSV = (r: number, g: number, b: number) => {
     hue = ((hue % 360) + 360) % 360;
     const sat = lig === 0 ? 0 : chroma/xMax;
     return [hue, sat * 100, lig * 100];
-}
+};

@@ -1,18 +1,22 @@
 import React, { useEffect, useRef, useState } from "react"
 
-interface canvasProps {
+
+interface CanvasProps {
     name: string;
     width?: number;
     height?: number;
     draw: (context: CanvasRenderingContext2D) => void;
     onClick?: (e: React.MouseEvent, context: CanvasRenderingContext2D) => void;
 }
+
 const nop = () => undefined;
 
-export const Canvas = ({name, width, height, draw, onClick = nop }: canvasProps) => {
+
+export const Canvas: React.FC<CanvasProps> = ({name, width, height, draw, onClick = nop}) => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const [context, setContext] = useState<CanvasRenderingContext2D | null>(null);
     const [mouseDown, setMouseDown] = useState(false);
+
 
     useEffect(() => {
         if (canvasRef.current){
@@ -33,18 +37,24 @@ export const Canvas = ({name, width, height, draw, onClick = nop }: canvasProps)
         setMouseDown(true);
     };
 
-    const handleMouseUp = (e: React.MouseEvent) => {
-        setMouseDown(false);
-    };
-
     const handleMouseMove = (e: React.MouseEvent) => {
         mouseDown && context && onClick(e, context);
-    }
+    };
+
+    const handleMouseEnter = (e: React.MouseEvent) => {
+        e.buttons === 1 && setMouseDown(true);
+    };
     
-    //https://stackoverflow.com/questions/54281842/activating-the-onmousemove-event-only-when-the-onmousedown-event-is-activate
-    return (
-        <canvas ref={canvasRef} onMouseMove={handleMouseMove} onMouseUp={handleMouseUp} onMouseDown={handleMouseDown} id={name} width={width} height={height}/>
-    )
+    return <canvas ref={canvasRef} 
+                   onMouseEnter={handleMouseEnter} 
+                   onMouseOut={() => setMouseDown(false)} 
+                   onMouseMove={handleMouseMove} 
+                   onMouseUp={() => setMouseDown(false)} 
+                   onMouseDown={handleMouseDown}
+                   id={name} 
+                   width={width} 
+                   height={height}
+            />
 };
 
 export default Canvas;

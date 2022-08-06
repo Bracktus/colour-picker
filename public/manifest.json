@@ -1,0 +1,8 @@
+{
+    "short_name": "Colour Picker",
+    "name": "art.rchu.cc - Colour Picker",
+    "start_url": ".",
+    "display": "standalone",
+    "theme_color": "#000000",
+    "background_color": "#ffffff"
+  }

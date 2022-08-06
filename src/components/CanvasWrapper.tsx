@@ -3,8 +3,8 @@ import Canvas from "./Canvas";
 
 export const CanvasWrapper = () => {
     const [selected, setSelected] = useState("option-1");
-    const width = 300;
-    const height = 300;
+    const width = 400;
+    const height = 400;
     
     const draw = (context: CanvasRenderingContext2D) => {
         context.fillStyle = "#000000";
@@ -37,8 +37,7 @@ export const CanvasWrapper = () => {
                     value="option-1"
                     checked={selected === "option-1"}
                     onChange={() => setSelected("option-1")}
-                >
-                </input>
+                />
                 option-1
             </label>
                 
@@ -49,8 +48,7 @@ export const CanvasWrapper = () => {
                     value="option-2"
                     checked={selected === "option-2"}
                     onChange={() => setSelected("option-2")}
-                >
-                </input>
+                />
                 option-2
             </label>
             
