@@ -7,16 +7,18 @@ import "./css/App.css";
 // }
 
 const App = () => {
-    //const [colours, setColours] = useState<colours>({});
-    return (
-        <>
-            <h1>Hello World!</h1>
-            <div style={{alignItems: "center", display: "flex"}}>
-            <CanvasWrapper/>
-            <ColourPanel id={1}/>
-            </div>
-        </>
-    );
+  //const [colours, setColours] = useState<colours>({});
+  return (
+    <div className="row">
+      <div className="column">
+        <h1>Hello World!</h1>
+        <CanvasWrapper />
+      </div>
+      <div className="column">
+        <ColourPanel id={1} />
+      </div>
+    </div>
+  );
 };
 
 export default App;
