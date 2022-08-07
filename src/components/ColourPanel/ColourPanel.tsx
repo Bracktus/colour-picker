@@ -1,7 +1,7 @@
-import { useCallback, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import Picker from "../Picker/Picker";
 import Swatch from "../Swatch";
-import { formatColour, getHexString, HSVtoRGB } from "./helpers";
+import { formatColour, getHexString, HSVtoRGB, useOutsideAlerter } from "./helpers";
 
 const divStyle = {
   border: "solid black 1px",
@@ -16,18 +16,19 @@ export const ColourPanel: React.FC<ColourPanelProps> = ({ id }) => {
   const [HSV, setHSV] = useState([0, 0, 0]);
   const [showPicker, setShowPicker] = useState(true);
 
+  //If we click outside of the div, hide the picker
+  const containerRef = useRef<HTMLDivElement>(null);
+  useOutsideAlerter(containerRef, () => setShowPicker(false));
+
   const pickerOnChange = useCallback((h: number, s: number, v: number) => {
     setHSV([h, s, v]);
     setRGB(HSVtoRGB(h, s, v));
   }, []);
 
   return (
-    <div style={divStyle}>
+    <div style={divStyle} ref={containerRef} onClick={() => setShowPicker(true)}>
       {showPicker && (
         <Picker
-          onOutsideClick={() => {
-            setShowPicker(false);
-          }}
           onChange={pickerOnChange}
           id={id}
         />
@@ -36,7 +37,6 @@ export const ColourPanel: React.FC<ColourPanelProps> = ({ id }) => {
       <p>{getHexString(RGB[0], RGB[1], RGB[2])}</p>
       <Swatch
         colourString={formatColour("rgb", RGB)}
-        onClick={() => setShowPicker(true)}
       />
       <p>{formatColour("hsv", HSV)}</p>
       <p>{formatColour("rgb", RGB)}</p>

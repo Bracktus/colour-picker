@@ -1,13 +1,10 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
-  EventListnerFunc,
   getFromStorage,
   setStorage,
-  useOutsideAlerter,
 } from "./helpers";
 import Canvas from "../Canvas";
 import HueSlider from "../HueSlider";
-
 
 interface MousePosition {
   x: number;
@@ -15,13 +12,11 @@ interface MousePosition {
 }
 
 interface PickerProps {
-  onOutsideClick: EventListnerFunc;
   onChange: Function;
   id: number;
 }
 
 export const Picker: React.FC<PickerProps> = ({
-  onOutsideClick,
   onChange,
   id,
 }) => {
@@ -45,19 +40,18 @@ export const Picker: React.FC<PickerProps> = ({
     y: getFromStorage(id, defaultHSV)[2],
   });
 
-  const containerRef = useRef<HTMLDivElement>(null);
-  useOutsideAlerter(containerRef, onOutsideClick);
 
   useEffect(() => {
     const clamp = (num: number) => Math.max(Math.min(num, 1), 0);
-    const sat = clamp(cursorPos.x / width);
-    const val = clamp((height - cursorPos.y) / height);
+    const sat = clamp(cursorPos.x / width) * 100;
+    const val = clamp((height - cursorPos.y) / height) * 100;
 
     setStorage(id, [hue, cursorPos.x, cursorPos.y]);
     onChange(hue, sat, val);
   }, [hue, cursorPos, onChange, id]);
 
   const draw = (context: CanvasRenderingContext2D) => {
+    //Draw the Gradient
     context.fillStyle = `hsl(${hue}, 100%, 50%)`;
     context.fillRect(0, 0, width, height);
 
@@ -75,6 +69,7 @@ export const Picker: React.FC<PickerProps> = ({
 
     context.strokeStyle = "rbga(0,0,0,1)";
 
+    //Draw our cursor on the canvas
     context.beginPath();
     context.moveTo(cursorPos.x, cursorPos.y + 3);
     context.lineTo(cursorPos.x, cursorPos.y + 8);
@@ -103,7 +98,7 @@ export const Picker: React.FC<PickerProps> = ({
   };
 
   return (
-    <div ref={containerRef}>
+    <div>
       <HueSlider width={width} hue={hue} onChange={setHue} />
       <Canvas
         name="picker"

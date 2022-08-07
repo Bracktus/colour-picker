@@ -1,4 +1,8 @@
+import { useEffect } from "react";
+
 export const getHexString = (r: number, g: number, b: number) => {
+  //RGB -> Hex string
+  //E.g. getHexString(71, 15, 15) -> "#470f0f"
   const decToHex = (num: number) => {
     const x = Math.round(num).toString(16);
     return x.length > 1 ? x : `0${x}`;
@@ -8,18 +12,21 @@ export const getHexString = (r: number, g: number, b: number) => {
 };
 
 export const formatColour = (prefix: string, values: number[]) => {
-  const rounded = values.map((v) => v.toFixed(3));
+  const rounded = values.map((v) => Math.round(v));
   return `${prefix}(${rounded[0]}, ${rounded[1]}, ${rounded[2]})`;
 };
 
 export const HSVtoRGB = (hue: number, sat: number, val: number) => {
   // hue - [0, 360]
-  // sat - [0, 1]
-  // val - [0, 1]
-  const chroma = val * sat;
+  // satNorm - [0, 1]
+  // valNorm - [0, 1]
+  const satNorm = sat/100;
+  const valNorm = val/100;
+
+  const chroma = valNorm * satNorm;
   const hueNorm = hue / 60;
   const x = chroma * (1 - Math.abs((hueNorm % 2) - 1));
-  const m = val - chroma;
+  const m = valNorm - chroma;
   let r = -1,
     g = -1,
     b = -1;
@@ -45,6 +52,7 @@ export const RGBtoHSV = (r: number, g: number, b: number) => {
   const xMin = Math.min(r, g, b);
   const chroma = xMax - xMin;
   const lig = (xMax + xMin) / 2;
+
   let hue = 0;
   if (chroma === 0) {
     hue = 0;
@@ -55,7 +63,28 @@ export const RGBtoHSV = (r: number, g: number, b: number) => {
   } else if (xMax === b) {
     hue = 60 * (4 + (r - g) / chroma);
   }
+
   hue = ((hue % 360) + 360) % 360;
   const sat = lig === 0 ? 0 : chroma / xMax;
   return [hue, sat * 100, lig * 100];
+};
+
+export type EventListnerFunc = (event: MouseEvent) => void;
+
+export const useOutsideAlerter = (
+  ref: React.RefObject<HTMLDivElement>,
+  handleOutsideClick: EventListnerFunc
+) => {
+  useEffect(() => {
+    const handler: EventListnerFunc = (event) => {
+      if (ref.current && !ref.current.contains(event.target as Node)) {
+        handleOutsideClick(event);
+      }
+    };
+
+    document.addEventListener("mousedown", handler);
+    return () => {
+      document.removeEventListener("mousedown", handler);
+    };
+  }, [ref, handleOutsideClick]);
 };

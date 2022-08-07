@@ -22,6 +22,7 @@ export const Canvas: React.FC<CanvasProps> = ({
   const [mouseDown, setMouseDown] = useState(false);
 
   useEffect(() => {
+    // Set the context from the canvas reference
     if (canvasRef.current) {
       const renderCtx = canvasRef.current.getContext("2d");
       if (renderCtx) setContext(renderCtx);
@@ -29,6 +30,8 @@ export const Canvas: React.FC<CanvasProps> = ({
   }, [context]);
 
   useEffect(() => {
+    // When we supply a new draw function
+    // Clear the canvas, and then run said draw function
     if (context && canvasRef.current) {
       context.clearRect(
         0,
@@ -50,6 +53,8 @@ export const Canvas: React.FC<CanvasProps> = ({
   };
 
   const handleMouseEnter = (e: React.MouseEvent) => {
+    //Handles the edge case where if we hold the mouse down
+    //and enter the canvas it counts as us holding the mouse down
     e.buttons === 1 && setMouseDown(true);
   };
 

@@ -1,9 +1,8 @@
 interface SwatchProps {
   colourString: string;
-  onClick: (e: React.MouseEvent) => void;
 }
 
-export const Swatch: React.FC<SwatchProps> = ({ colourString, onClick }) => {
+export const Swatch: React.FC<SwatchProps> = ({ colourString }) => {
   const style = {
     borderRadius: "50%",
     background: colourString,
@@ -12,7 +11,7 @@ export const Swatch: React.FC<SwatchProps> = ({ colourString, onClick }) => {
     width: "30px",
     cursor: "pointer",
   };
-  return <div style={style} onClick={onClick} />;
+  return <div style={style}/>;
 };
 
 export default Swatch;
