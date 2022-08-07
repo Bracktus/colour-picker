@@ -13,20 +13,19 @@ export const getHexString = (r: number, g: number, b: number) => {
 
 export const formatColour = (prefix: string, values: number[]) => {
   const rounded = values.map((v) => Math.round(v));
-  return `${prefix}(${rounded[0]}, ${rounded[1]}, ${rounded[2]})`;
+  const formatted = rounded.join(", ");
+  return `${prefix}(${formatted})`;
 };
 
 export const HSVtoRGB = (hue: number, sat: number, val: number) => {
   // hue - [0, 360]
-  // satNorm - [0, 1]
-  // valNorm - [0, 1]
-  const satNorm = sat/100;
-  const valNorm = val/100;
+  // sat - [0, 1]
+  // val - [0, 1]
 
-  const chroma = valNorm * satNorm;
+  const chroma = val * sat;
   const hueNorm = hue / 60;
   const x = chroma * (1 - Math.abs((hueNorm % 2) - 1));
-  const m = valNorm - chroma;
+  const m = val - chroma;
   let r = -1,
     g = -1,
     b = -1;
@@ -48,6 +47,9 @@ export const HSVtoRGB = (hue: number, sat: number, val: number) => {
 };
 
 export const RGBtoHSV = (r: number, g: number, b: number) => {
+  // r - [0, 1]
+  // g - [0, 1]
+  // b - [0, 1]
   const xMax = Math.max(r, g, b);
   const xMin = Math.min(r, g, b);
   const chroma = xMax - xMin;

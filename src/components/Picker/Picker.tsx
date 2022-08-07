@@ -1,8 +1,5 @@
-import React, { useEffect, useState } from "react";
-import {
-  getFromStorage,
-  setStorage,
-} from "./helpers";
+import React from "react";
+
 import Canvas from "../Canvas";
 import HueSlider from "../HueSlider";
 
@@ -14,41 +11,30 @@ interface MousePosition {
 interface PickerProps {
   onChange: Function;
   id: number;
+  HSV: number[];
+  setHSV: React.Dispatch<React.SetStateAction<number[]>>
 }
 
 export const Picker: React.FC<PickerProps> = ({
   onChange,
   id,
+  HSV,
 }) => {
+  const [hue, sat, val] = HSV;
   const width = 300;
   const height = 300;
 
-  /* 
-    Here we're retriving state from session storage.
-    I'm not sure if the is the best solution, but it's hard to store the state in
-    the parent because we end up in an infinite loop if we
-    update child -> pass state up to parent -> cause parent refresh -> update child
+  const cursorPos: MousePosition = { 
+    x: (sat/100)*width, 
+    y: (val/100)*height
+  };
 
-    We'll also run into issues of assigning unique id's to each list and keeping the state
-    consistent. We could make the storage one big object instead, but the deserialising
-    might get a bit complex (and expensive);
-  */
-  const defaultHSV = [180, width / 2, height / 2];
-  const [hue, setHue] = useState(getFromStorage(id, defaultHSV)[0]);
-  const [cursorPos, setCursorPos] = useState<MousePosition>({
-    x: getFromStorage(id, defaultHSV)[1],
-    y: getFromStorage(id, defaultHSV)[2],
-  });
-
-
-  useEffect(() => {
-    const clamp = (num: number) => Math.max(Math.min(num, 1), 0);
-    const sat = clamp(cursorPos.x / width) * 100;
-    const val = clamp((height - cursorPos.y) / height) * 100;
-
-    setStorage(id, [hue, cursorPos.x, cursorPos.y]);
-    onChange(hue, sat, val);
-  }, [hue, cursorPos, onChange, id]);
+  const onClick = (e: React.MouseEvent, _context: CanvasRenderingContext2D) => {
+    const clamp = (v: number) => Math.min(Math.max(0, v), 1)
+    const xPos = e.nativeEvent.offsetX;
+    const yPos = e.nativeEvent.offsetY;
+    onChange(hue, clamp(xPos/width) * 100, clamp(yPos/height) * 100)
+  };
 
   const draw = (context: CanvasRenderingContext2D) => {
     //Draw the Gradient
@@ -91,17 +77,11 @@ export const Picker: React.FC<PickerProps> = ({
     context.stroke();
   };
 
-  const onClick = (e: React.MouseEvent, _context: CanvasRenderingContext2D) => {
-    const xPos = e.nativeEvent.offsetX;
-    const yPos = e.nativeEvent.offsetY;
-    setCursorPos({ x: xPos, y: yPos });
-  };
-
   return (
     <div>
-      <HueSlider width={width} hue={hue} onChange={setHue} />
+      <HueSlider width={width} hue={hue} onChange={newHue => onChange(newHue, sat, val)} />
       <Canvas
-        name="picker"
+        name={`${id}_picker`}
         draw={draw}
         width={width}
         height={height}

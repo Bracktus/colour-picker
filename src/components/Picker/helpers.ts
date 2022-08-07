@@ -1,3 +1,5 @@
+//TODO Delete this?
+
 export const getFromStorage = (id: number, fallback: number[]) => {
   const data = sessionStorage.getItem(id.toString());
   return data != null ? JSON.parse(data) : fallback;

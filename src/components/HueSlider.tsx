@@ -3,7 +3,7 @@ import "../css/HueSlider.css";
 interface HueSliderProps {
   width: number;
   hue: number;
-  onChange: React.Dispatch<React.SetStateAction<number>>;
+  onChange: (hue: number) => void;
 }
 
 export const HueSlider: React.FC<HueSliderProps> = ({
@@ -21,11 +21,11 @@ export const HueSlider: React.FC<HueSliderProps> = ({
     <input
       className="slider"
       type="range"
-      onChange={(e) => onChange(parseInt(e.target.value))}
+      onChange={e => onChange(parseInt(e.target.value))}
       value={hue}
       max={360}
       style={style}
-      step="0.1"
+      step="1"
     ></input>
   );
 };

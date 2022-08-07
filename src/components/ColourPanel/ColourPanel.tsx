@@ -1,7 +1,8 @@
 import { useCallback, useRef, useState } from "react";
 import Picker from "../Picker/Picker";
 import Swatch from "../Swatch";
-import { formatColour, getHexString, HSVtoRGB, useOutsideAlerter } from "./helpers";
+import { TextBox } from "../TextBox/TextBox";
+import { formatColour, getHexString, HSVtoRGB, RGBtoHSV, useOutsideAlerter } from "./helpers";
 
 const divStyle = {
   border: "solid black 1px",
@@ -22,7 +23,7 @@ export const ColourPanel: React.FC<ColourPanelProps> = ({ id }) => {
 
   const pickerOnChange = useCallback((h: number, s: number, v: number) => {
     setHSV([h, s, v]);
-    setRGB(HSVtoRGB(h, s, v));
+    setRGB(HSVtoRGB(h, s/100, v/100));
   }, []);
 
   return (
@@ -31,6 +32,8 @@ export const ColourPanel: React.FC<ColourPanelProps> = ({ id }) => {
         <Picker
           onChange={pickerOnChange}
           id={id}
+          HSV={HSV}
+          setHSV={setHSV}
         />
       )}
       
@@ -38,8 +41,27 @@ export const ColourPanel: React.FC<ColourPanelProps> = ({ id }) => {
       <Swatch
         colourString={formatColour("rgb", RGB)}
       />
-      <p>{formatColour("hsv", HSV)}</p>
-      <p>{formatColour("rgb", RGB)}</p>
+
+
+      <p>HSV</p>
+      <TextBox 
+        colour={HSV} 
+        setColour={col => {
+          setHSV(col);
+          setRGB(HSVtoRGB(col[0], col[1]/100, col[2]/100));
+        }} 
+        colourType={"HSV"}/>
+
+      {/*TODO Updates to HSV, also updates picker, which in turn updates RGB*/}
+      {/* Updates to RGB only change RGB, therefore this is bugged*/}
+      <p>RGB</p>
+      <TextBox 
+        colour={RGB} 
+        setColour={col => {
+          setRGB(col); 
+          setHSV(RGBtoHSV(col[0]/255, col[1]/255, col[2]/255))
+        }}
+        colourType={"RGB"}/>
     </div>
   );
 };
