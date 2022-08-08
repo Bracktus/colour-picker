@@ -21,7 +21,7 @@ export const HueSlider: React.FC<HueSliderProps> = ({
     <input
       className="slider"
       type="range"
-      onChange={e => onChange(parseInt(e.target.value))}
+      onChange={(e) => onChange(parseInt(e.target.value))}
       value={hue}
       max={360}
       style={style}

@@ -1,7 +1,7 @@
 import CanvasWrapper from "./components/CanvasWrapper";
 import { ColourPanel } from "./components/ColourPanel/ColourPanel";
 import PanelFactory from "./components/PanelFactory";
-import "./css/layout.css"
+import "./css/layout.css";
 
 // interface colours {
 //     [key: number]: string
@@ -16,7 +16,7 @@ const App = () => {
         <CanvasWrapper />
       </div>
       <div className="column">
-        <PanelFactory/>
+        <PanelFactory />
       </div>
     </div>
   );

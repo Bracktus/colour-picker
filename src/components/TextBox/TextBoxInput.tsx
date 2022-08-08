@@ -1,26 +1,30 @@
 export interface TextBoxInputProps {
-    text: string
-    onTextChange: (newText: string) => void;
-    onBlur: () => void;
-    onFocus: () => void;
+  text: string;
+  onTextChange: (newText: string) => void;
+  onBlur: () => void;
+  onFocus: () => void;
 }
 
-export const TextBoxInput: React.FC<TextBoxInputProps> = ({text, onTextChange, onBlur, onFocus}) => {
+export const TextBoxInput: React.FC<TextBoxInputProps> = ({
+  text,
+  onTextChange,
+  onBlur,
+  onFocus,
+}) => {
+  const handleTextChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
+    const inputText = e.target.value.replace(/[^0-9,\s]/g, "");
+    onTextChange(inputText);
+  };
 
-    const handleTextChange: React.ChangeEventHandler<HTMLInputElement> = e => {
-        const inputText = e.target.value.replace(/[^0-9,\s]/g, "");
-        //TODO We're removing whitespace here.
-        //Don't do that
-        onTextChange(inputText);
-    };
-
-    return <input
-            type="text"
-            value={text}
-            onChange={handleTextChange}
-            onBlur={onBlur}
-            onFocus={onFocus}
-            />
-}
+  return (
+    <input
+      type="text"
+      value={text}
+      onChange={handleTextChange}
+      onBlur={onBlur}
+      onFocus={onFocus}
+    />
+  );
+};
 
 export default TextBoxInput;

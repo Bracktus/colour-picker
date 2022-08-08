@@ -11,7 +11,7 @@ export const Swatch: React.FC<SwatchProps> = ({ colourString }) => {
     width: "30px",
     cursor: "pointer",
   };
-  return <div style={style}/>;
+  return <div style={style} />;
 };
 
 export default Swatch;
