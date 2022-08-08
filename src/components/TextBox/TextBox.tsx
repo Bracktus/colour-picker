@@ -39,4 +39,6 @@ export const TextBox: React.FC<TextBoxProps> = ({colour, colourType, setColour})
             onBlur={reset}
             onFocus={activate}
             />
-}
+};
+
+export default TextBox;
