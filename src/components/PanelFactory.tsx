@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { ColourPanel } from "./ColourPanel/ColourPanel";
+import ColourPanel from "./ColourPanel/ColourPanel";
 
 export const PanelFactory: React.FC = () => {
-  const [colours, setColours] = useState([[180, 100, 150]]);
+  const [colours, setColours] = useState([[180, 50, 50]]);
 
   const modifyColour = (
     index: number,
@@ -15,16 +15,22 @@ export const PanelFactory: React.FC = () => {
     setColours(newState);
   };
 
+  const addColour = (prevState: number[][]) => {
+    setColours([...prevState, [180, 50, 50]])
+  };
+
   return (
-    <div className="column">
+      <>
       {colours.map((col, idx) => (
         <ColourPanel
+          key={idx}
           id={idx}
           HSV={col}
           setHSV={(col) => modifyColour(idx, col, colours)}
         />
       ))}
-    </div>
+      <p onClick={() => addColour(colours)}>Add a new colour</p>
+      </>
   );
 };
 

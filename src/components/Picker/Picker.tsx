@@ -21,13 +21,13 @@ export const Picker: React.FC<PickerProps> = ({ onChange, id, HSV }) => {
 
   const cursorPos: MousePosition = {
     x: (sat / 100) * width,
-    y: (val / 100) * height,
+    y: height - ((val / 100) * height),
   };
 
   const onClick = (e: React.MouseEvent, _context: CanvasRenderingContext2D) => {
     const clamp = (v: number) => Math.min(Math.max(0, v), 1);
     const xPos = e.nativeEvent.offsetX;
-    const yPos = e.nativeEvent.offsetY;
+    const yPos = height - e.nativeEvent.offsetY;
     onChange([hue, clamp(xPos / width) * 100, clamp(yPos / height) * 100]);
   };
 
@@ -74,17 +74,17 @@ export const Picker: React.FC<PickerProps> = ({ onChange, id, HSV }) => {
 
   return (
     <div className="column">
-      <HueSlider
-        width={width}
-        hue={hue}
-        onChange={(newHue) => onChange([newHue, sat, val])}
-      />
       <Canvas
         name={`${id}_picker`}
         draw={draw}
         width={width}
         height={height}
         onClick={onClick}
+      />
+      <HueSlider
+        width={width}
+        hue={hue}
+        onChange={(newHue) => onChange([newHue, sat, val])}
       />
     </div>
   );

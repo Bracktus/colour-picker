@@ -1,5 +1,4 @@
 import CanvasWrapper from "./components/CanvasWrapper";
-import { ColourPanel } from "./components/ColourPanel/ColourPanel";
 import PanelFactory from "./components/PanelFactory";
 import "./css/layout.css";
 

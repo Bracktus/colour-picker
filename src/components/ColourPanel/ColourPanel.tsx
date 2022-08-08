@@ -21,7 +21,7 @@ export const ColourPanel: React.FC<ColourPanelProps> = ({
   HSV,
   setHSV,
 }) => {
-  const [RGB, setRGB] = useState([0, 0, 0]);
+  const [RGB, setRGB] = useState(HSVtoRGB(HSV[0], HSV[1]/100, HSV[2]/100));
   const [showPicker, setShowPicker] = useState(true);
 
   //If we click outside of the div, hide the picker
@@ -61,18 +61,22 @@ export const ColourPanel: React.FC<ColourPanelProps> = ({
         </div>
       </div>
 
-      <div className="column">
+
         {showPicker && (
-          <Picker
-            onChange={(col) => {
-              setHSV(col);
-              setRGB(HSVtoRGB(col[0], col[1] / 100, col[2] / 100));
-            }}
-            id={id}
-            HSV={HSV}
-          />
+          <div className="column">
+            <Picker
+              onChange={(col) => {
+                setHSV(col);
+                setRGB(HSVtoRGB(col[0], col[1] / 100, col[2] / 100));
+              }}
+              id={id}
+              HSV={HSV}
+            />
+          </div>
         )}
-      </div>
+
     </div>
   );
 };
+
+export default ColourPanel;
