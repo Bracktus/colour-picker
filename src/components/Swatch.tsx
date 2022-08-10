@@ -6,9 +6,8 @@ export const Swatch: React.FC<SwatchProps> = ({ colourString }) => {
   const style = {
     borderRadius: "50%",
     background: colourString,
-    margin: "10px",
-    height: "30px",
-    width: "30px",
+    height: "20px",
+    width: "20px",
     cursor: "pointer",
   };
   return <div style={style} />;

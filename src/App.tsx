@@ -1,6 +1,9 @@
 import CanvasWrapper from "./components/CanvasWrapper";
 import PanelFactory from "./components/PanelFactory";
-import "./css/layout.css";
+import Container from 'react-bootstrap/Container';
+import Col from 'react-bootstrap/Col';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { Row } from "react-bootstrap";
 
 // interface colours {
 //     [key: number]: string
@@ -9,15 +12,17 @@ import "./css/layout.css";
 const App = () => {
   //const [colours, setColours] = useState<colours>({});
   return (
-    <div className="row">
-      <div className="column">
-        <h1>Hello World!</h1>
-        <CanvasWrapper />
-      </div>
-      <div className="column">
-        <PanelFactory />
-      </div>
-    </div>
+    <Container>
+      <Row>
+        <Col>
+          <h1>Hello World!</h1>
+          <CanvasWrapper />
+        </Col>
+        <Col>
+          <PanelFactory />
+        </Col>
+      </Row>
+    </Container>
   );
 };
 

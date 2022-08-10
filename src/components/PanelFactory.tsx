@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Container, Row, Col } from "react-bootstrap";
 import ColourPanel from "./ColourPanel/ColourPanel";
 
 export const PanelFactory: React.FC = () => {
@@ -19,18 +20,29 @@ export const PanelFactory: React.FC = () => {
     setColours([...prevState, [180, 50, 50]])
   };
 
+  const removeColour = (prevState: number[][], index: number) => {
+    const newState = prevState.filter((_, idx) => idx !== index);
+    setColours(newState);
+  }
+
   return (
-      <>
-      {colours.map((col, idx) => (
-        <ColourPanel
-          key={idx}
-          id={idx}
-          HSV={col}
-          setHSV={(col) => modifyColour(idx, col, colours)}
-        />
-      ))}
-      <p onClick={() => addColour(colours)}>Add a new colour</p>
-      </>
+      <Container>
+        <Col>
+          {colours.map((col, idx) => (
+            <Row>
+              <ColourPanel
+                key={idx}
+                id={idx}
+                HSV={col}
+                setHSV={(col) => modifyColour(idx, col, colours)}
+                removePanel={() => removeColour(colours, idx)}
+                canRemove={idx !== 0}
+              />
+            </Row>
+          ))}
+        <Row><input type="button" value="Add another colour" onClick={() => addColour(colours)}/></Row>
+        </Col>
+      </Container>
   );
 };
 
