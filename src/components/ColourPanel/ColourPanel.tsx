@@ -1,5 +1,5 @@
-import { useRef, useState } from "react";
-import { CloseButton, Col, Collapse, Container, ListGroup, Row } from "react-bootstrap";
+import { useEffect, useRef, useState } from "react";
+import { CloseButton, Col, Container, Row } from "react-bootstrap";
 import Picker from "../Picker/Picker";
 import Swatch from "../Swatch";
 import TextBox from "../TextBox/TextBox";
@@ -8,7 +8,6 @@ import {
   getHexString,
   HSVtoRGB,
   RGBtoHSV,
-  useOutsideAlerter,
 } from "./helpers";
 
 interface ColourPanelProps {
@@ -16,7 +15,8 @@ interface ColourPanelProps {
   HSV: number[];
   setHSV: (HSV: number[]) => void;
   removePanel: () => void;
-  canRemove: boolean
+  showPicker: boolean;
+  onClick: () => void;
 }
 
 export const ColourPanel: React.FC<ColourPanelProps> = ({
@@ -24,26 +24,36 @@ export const ColourPanel: React.FC<ColourPanelProps> = ({
   HSV,
   setHSV,
   removePanel,
-  canRemove
+  showPicker,
+  onClick
 }) => {
   const [RGB, setRGB] = useState(HSVtoRGB(HSV[0], HSV[1] / 100, HSV[2] / 100));
-  const [showPicker, setShowPicker] = useState(true);
-
+  
   //If we click outside of the div, hide the picker
-  const containerRef = useRef<HTMLDivElement>(null);
-  useOutsideAlerter(containerRef, () => setShowPicker(false));
+  const containerRef = useRef<HTMLDivElement>(null)
+  
+  const canvasParent = useRef<HTMLDivElement>(null);
+  //This is horrible, but I'm not sure how else to achieve a correctly
+  //scaled responsive canvas
 
+  const pickerWidth = canvasParent.current ? canvasParent.current.offsetWidth : 490;
+  const pickerHeight = canvasParent.current ? canvasParent.current.offsetWidth * 0.5 : undefined;
+
+  useEffect(() => {
+    setRGB(HSVtoRGB(HSV[0], HSV[1] / 100, HSV[2] / 100));
+  }, [HSV])
+
+  
   return (
     <div
+      id="panelContainer"
       ref={containerRef}
-      onClick={() => setShowPicker(true)}
+      onClick={() => onClick()}
     >
       <Container fluid style={{border: "1px black solid", margin: "5px 0", borderRadius: "5px"}}>
-        {canRemove &&
-          <Row style={{paddingTop: "10px"}}>
-            <Col><CloseButton onClick={removePanel} /></Col>
-          </Row>
-        }
+        <Row style={{paddingTop: "10px"}}>
+          <Col><CloseButton onClick={removePanel} /></Col>
+        </Row>
 
         <Row>
           <Col>
@@ -87,11 +97,9 @@ export const ColourPanel: React.FC<ColourPanelProps> = ({
                 />
               </Col>
             </Row>
-          </Col>
-          
-          <Collapse in={showPicker}>
-            <Col>
-              <Row>
+
+            {showPicker &&
+              <Row ref={canvasParent}>
                 <Picker
                   onChange={(col) => {
                     setHSV(col);
@@ -99,12 +107,13 @@ export const ColourPanel: React.FC<ColourPanelProps> = ({
                   }}
                   id={id}
                   HSV={HSV}
+                  width={pickerWidth}
+                  height={pickerHeight}
                 />
               </Row>
-            </Col>
-          </Collapse>
+        }
+          </Col>
         </Row>
-
       </Container>
     </div>
   );
