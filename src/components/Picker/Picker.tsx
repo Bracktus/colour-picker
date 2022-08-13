@@ -12,23 +12,16 @@ interface PickerProps {
   height?: number;
 }
 
-export const Picker: React.FC<PickerProps> = ({ onChange, id, HSV, width, height }) => {
+export const Picker: React.FC<PickerProps> = ({ onChange, id, HSV, width = 100, height = 100 }) => {
   const [hue, sat, val] = HSV;
 
-  const onClick = (e: React.MouseEvent, context: CanvasRenderingContext2D) => {
-    const width = context.canvas.width;
-    const height = context.canvas.height;
-
-    const clamp = (v: number) => Math.min(Math.max(0, v), 1);
-    const xPos = e.nativeEvent.offsetX;;
+  const onClick = (e: React.MouseEvent, _context: CanvasRenderingContext2D) => {
+    const xPos = e.nativeEvent.offsetX;
     const yPos = height - e.nativeEvent.offsetY;
-    onChange([hue, clamp(xPos / width) * 100, clamp(yPos / height) * 100]);
+    onChange([hue, (xPos / width) * 100, (yPos / height) * 100]);
   };
 
   const draw = (context: CanvasRenderingContext2D) => {
-    const width = context.canvas.width;
-    const height = context.canvas.height;
-
     //Draw the Gradient
     context.fillStyle = `hsl(${hue}, 100%, 50%)`;
     context.fillRect(0, 0, width, height);
@@ -75,20 +68,23 @@ export const Picker: React.FC<PickerProps> = ({ onChange, id, HSV, width, height
     <Container>
       <Col>
         <Row>
-          <Canvas
-            name={`${id}_picker`}
-            draw={draw}
-            onClick={onClick}
-            width={width}
-            height={height}
-          />
+          <div style={{padding: "10px"}}>
+            <Canvas
+              name={`${id}_picker`}
+              draw={draw}
+              onClick={onClick}
+              width={width}
+              height={height}
+            />
+          </div>
         </Row>
         <Row>
+          <div style={{width: "100%"}}>
           <HueSlider
             hue={hue}
             onChange={(newHue) => onChange([newHue, sat, val])}
-            width={width} 
           />
+          </div>
         </Row>
       </Col>
     </Container>

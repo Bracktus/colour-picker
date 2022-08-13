@@ -11,26 +11,45 @@ export const PanelFactory: React.FC = () => {
     newCol: number[],
     prevState: number[][]
   ) => {
-    const newState = prevState.map((colour, colIdx) =>
-      colIdx === index ? newCol : colour
-    );
+    //Not functional style, but this'll be ran every time the mouse moves.
+    //So it needs to be pretty fast.
+    const newState = prevState.slice();
+    newState[index] = newCol;
     setColours(newState);
   };
 
   const addColour = () => {
-    setColours(prevState => [...prevState, [180, 50, 50]])
-    setActivePickers(prevState => [...prevState, false])
+    setColours(prevState => [...prevState, [180, 50, 50]]);
+    setActivePickers(prevState => [...prevState, false]);
   };
 
-  const removeColour = (prevState: number[][], index: number) => {
-    const newState = prevState.filter((_, idx) => idx !== index);
-    setColours(newState);
+  const removeColour = (index: number) => {
+    setColours(prevState => prevState.filter((_, idx) => idx !== index));
+
+    const indexBeforeSelected = index < activePickers.length - 1 && activePickers[index + 1];
+    const selectedIsLast = activePickers[activePickers.length - 1];
+    const indexIsSelected = activePickers[index];
+
+    if (indexBeforeSelected || selectedIsLast){
+      //if the picker after the selected picker is active,
+      //or the selected picker is the last one (regardless of selection)
+      //then remove the first element
+      const [, ...newState] = activePickers;
+      setActivePickers(newState);
+    } else if (indexIsSelected) {
+      //if the picker is the selected picker (except for when the picker is the last element)
+      //then remove the last element
+      const newState = activePickers.slice(0, -1)
+      setActivePickers(newState);
+    } else {
+      //otherwise, remove the selected element from the array
+      setActivePickers(prevState => prevState.filter((_, idx) => idx !== index));
+    }
   };
 
-  const onPanelClick = (prevState: boolean[], index: number) => {
-    const newState = prevState.map((_, idx) => idx === index);
-    setActivePickers(newState);
-  }
+  const onPanelClick = (index: number) => {
+    setActivePickers(prevState => prevState.map((_, idx) => idx === index));
+  };
 
   return (
       <Container>
@@ -41,8 +60,8 @@ export const PanelFactory: React.FC = () => {
                 id={idx}
                 HSV={col}
                 setHSV={(col) => modifyColour(idx, col, colours)}
-                removePanel={() => removeColour(colours, idx)}
-                onClick={() => onPanelClick(activePickers, idx)}
+                removePanel={() => removeColour(idx)}
+                onClick={() => onPanelClick(idx)}
                 showPicker={activePickers[idx]}
               />
             </Row>
