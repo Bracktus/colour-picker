@@ -1,14 +1,9 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef } from "react";
 import { CloseButton, Col, Container, Row } from "react-bootstrap";
 import Picker from "../Picker/Picker";
 import Swatch from "../Swatch";
 import TextBox from "../TextBox/TextBox";
-import {
-  formatColour,
-  getHexString,
-  HSVtoRGB,
-  RGBtoHSV,
-} from "./helpers";
+import { formatColour, getHexString, HSVtoRGB, RGBtoHSV } from "./helpers";
 
 interface ColourPanelProps {
   id: number;
@@ -25,39 +20,38 @@ export const ColourPanel: React.FC<ColourPanelProps> = ({
   setHSV,
   removePanel,
   showPicker,
-  onClick
+  onClick,
 }) => {
-  const [RGB, setRGB] = useState(HSVtoRGB(HSV[0], HSV[1] / 100, HSV[2] / 100));
-  
-  //If we click outside of the div, hide the picker
-  const containerRef = useRef<HTMLDivElement>(null)
-  
-  const canvasParent = useRef<HTMLDivElement>(null);
-  //This is horrible, but I'm not sure how else to achieve a correctly
-  //scaled responsive canvas
+  const RGB = HSVtoRGB(HSV[0], HSV[1] / 100, HSV[2] / 100);
+  const containerRef = useRef<HTMLDivElement>(null);
 
-  const pickerWidth = canvasParent.current ? canvasParent.current.offsetWidth : 490;
-  const pickerHeight = canvasParent.current ? canvasParent.current.offsetWidth * 0.5 : undefined;
+  const pickerWidth = 300;
+  const pickerHeight = 200;
 
-  useEffect(() => {
-    setRGB(HSVtoRGB(HSV[0], HSV[1] / 100, HSV[2] / 100));
-  }, [HSV])
-
-  
   return (
-    <div
-      id="panelContainer"
-      ref={containerRef}
-      onClick={() => onClick()}
-    >
-      <Container fluid style={{border: "1px black solid", margin: "5px 0", borderRadius: "5px"}}>
-        <Row style={{paddingTop: "10px"}}>
-          <Col><CloseButton onClick={removePanel} /></Col>
-        </Row>
-
+    <div ref={containerRef} onClick={() => onClick()}>
+      <Container
+        fluid
+        style={{
+          border: "1px black solid",
+          margin: "5px 0",
+          borderRadius: "5px",
+        }}
+      >
         <Row>
           <Col>
-            <Row style={{paddingTop: "10px"}}>
+            <Row style={{ paddingTop: "10px" }}>
+              <Col>
+                <CloseButton
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    removePanel();
+                  }}
+                />
+              </Col>
+            </Row>
+
+            <Row style={{ paddingTop: "10px" }}>
               <Col>
                 <p>{getHexString(RGB[0], RGB[1], RGB[2])}</p>
               </Col>
@@ -75,7 +69,6 @@ export const ColourPanel: React.FC<ColourPanelProps> = ({
                   colour={HSV}
                   setColour={(col) => {
                     setHSV(col);
-                    setRGB(HSVtoRGB(col[0], col[1] / 100, col[2] / 100));
                   }}
                   colourType={"HSV"}
                 />
@@ -90,29 +83,27 @@ export const ColourPanel: React.FC<ColourPanelProps> = ({
                 <TextBox
                   colour={RGB}
                   setColour={(col) => {
-                    setRGB(col);
                     setHSV(RGBtoHSV(col[0] / 255, col[1] / 255, col[2] / 255));
                   }}
                   colourType={"RGB"}
                 />
               </Col>
             </Row>
+          </Col>
 
-            {showPicker &&
-              <Row ref={canvasParent}>
+          {showPicker && (
+            <Col>
+              <Row>
                 <Picker
-                  onChange={(col) => {
-                    setHSV(col);
-                    setRGB(HSVtoRGB(col[0], col[1] / 100, col[2] / 100));
-                  }}
+                  onChange={(col) => setHSV(col)}
                   id={id}
                   HSV={HSV}
                   width={pickerWidth}
                   height={pickerHeight}
                 />
               </Row>
-        }
-          </Col>
+            </Col>
+          )}
         </Row>
       </Container>
     </div>
