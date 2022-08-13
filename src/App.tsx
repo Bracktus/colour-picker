@@ -1,16 +1,11 @@
 import CanvasWrapper from "./components/CanvasWrapper";
 import PanelFactory from "./components/PanelFactory";
-import Container from 'react-bootstrap/Container';
-import Col from 'react-bootstrap/Col';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import { Row } from "react-bootstrap";
-
-// interface colours {
-//     [key: number]: string
-// }
+import { Row, Col, Container } from "react-bootstrap";
+import "bootstrap/dist/css/bootstrap.min.css";
+import { useState } from "react";
 
 const App = () => {
-  //const [colours, setColours] = useState<colours>({});
+  const [colours, setColours] = useState([[180, 50, 50]]);
   return (
     <Container>
       <Row>
@@ -19,7 +14,7 @@ const App = () => {
           <CanvasWrapper />
         </Col>
         <Col>
-          <PanelFactory />
+          <PanelFactory colours={colours} setColours={setColours} />
         </Col>
       </Row>
     </Container>

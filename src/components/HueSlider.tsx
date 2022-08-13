@@ -4,15 +4,14 @@ import "../css/HueSlider.css";
 interface HueSliderProps {
   hue: number;
   onChange: (hue: number) => void;
-  width?: number
+  width?: number;
 }
 
 export const HueSlider: React.FC<HueSliderProps> = ({
   hue,
   onChange,
-  width
+  width,
 }) => {
-
   return (
     <Form.Range
       className="slider"
@@ -21,7 +20,7 @@ export const HueSlider: React.FC<HueSliderProps> = ({
       max={360}
       step="1"
       width={width}
-      bsPrefix={'hueslider'}
+      bsPrefix={"hueslider"}
     ></Form.Range>
   );
 };

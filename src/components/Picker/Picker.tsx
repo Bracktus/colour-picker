@@ -12,7 +12,13 @@ interface PickerProps {
   height?: number;
 }
 
-export const Picker: React.FC<PickerProps> = ({ onChange, id, HSV, width = 100, height = 100 }) => {
+export const Picker: React.FC<PickerProps> = ({
+  onChange,
+  id,
+  HSV,
+  width = 100,
+  height = 100,
+}) => {
   const [hue, sat, val] = HSV;
 
   const onClick = (e: React.MouseEvent, _context: CanvasRenderingContext2D) => {
@@ -42,7 +48,7 @@ export const Picker: React.FC<PickerProps> = ({ onChange, id, HSV, width = 100, 
 
     //Draw our cursor on the canvas
     const x = (sat / 100) * width;
-    const y = height - ((val / 100) * height);
+    const y = height - (val / 100) * height;
     context.beginPath();
     context.moveTo(x, y + 3);
     context.lineTo(x, y + 8);
@@ -68,7 +74,7 @@ export const Picker: React.FC<PickerProps> = ({ onChange, id, HSV, width = 100, 
     <Container>
       <Col>
         <Row>
-          <div style={{padding: "10px"}}>
+          <div style={{ padding: "10px" }}>
             <Canvas
               name={`${id}_picker`}
               draw={draw}
@@ -79,11 +85,11 @@ export const Picker: React.FC<PickerProps> = ({ onChange, id, HSV, width = 100, 
           </div>
         </Row>
         <Row>
-          <div style={{width: "100%"}}>
-          <HueSlider
-            hue={hue}
-            onChange={(newHue) => onChange([newHue, sat, val])}
-          />
+          <div style={{ width: "100%" }}>
+            <HueSlider
+              hue={hue}
+              onChange={(newHue) => onChange([newHue, sat, val])}
+            />
           </div>
         </Row>
       </Col>
