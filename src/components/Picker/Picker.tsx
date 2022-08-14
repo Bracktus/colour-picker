@@ -10,18 +10,14 @@ interface PickerProps {
   HSV: number[];
 }
 
-export const Picker: React.FC<PickerProps> = ({
-  onChange,
-  id,
-  HSV,
-}) => {
+export const Picker: React.FC<PickerProps> = ({ onChange, id, HSV }) => {
   const [hue, sat, val] = HSV;
 
   const mousePos = (context: CanvasRenderingContext2D) => {
     return {
       x: (sat / 100) * context.canvas.width,
-      y: context.canvas.height - ((val / 100) * context.canvas.height)
-    }
+      y: context.canvas.height - (val / 100) * context.canvas.height,
+    };
   };
 
   const onClick = (e: React.MouseEvent, context: CanvasRenderingContext2D) => {
@@ -31,9 +27,9 @@ export const Picker: React.FC<PickerProps> = ({
     const width = canvas.width;
     const height = canvas.height;
 
-    const xPos = (e.clientX - rect.left) / rect.width * width;
-    const yPos = (e.clientY - rect.top) / rect.height * height;
-    onChange([hue, (xPos / width) * 100, 100 - ((yPos / height) * 100)]);
+    const xPos = ((e.clientX - rect.left) / rect.width) * width;
+    const yPos = ((e.clientY - rect.top) / rect.height) * height;
+    onChange([hue, (xPos / width) * 100, 100 - (yPos / height) * 100]);
   };
 
   const draw = (context: CanvasRenderingContext2D) => {
@@ -54,8 +50,6 @@ export const Picker: React.FC<PickerProps> = ({
     yGrad.addColorStop(1, "rgba(0, 0, 0, 1");
     context.fillStyle = yGrad;
     context.fillRect(0, 0, width, height);
-
-
 
     //Draw our cursor on the canvas
     const pos = mousePos(context);
@@ -83,25 +77,19 @@ export const Picker: React.FC<PickerProps> = ({
     context.moveTo(x - 3, y);
     context.lineTo(x - 6, y);
     context.stroke();
-
-
   };
 
   return (
     <Container>
       <Col>
         <Row>
-            <Canvas
-              name={`${id}_picker`}
-              draw={draw}
-              onClick={onClick}
-            />
+          <Canvas name={`${id}_picker`} draw={draw} onClick={onClick} />
         </Row>
         <Row>
-            <HueSlider
-              hue={hue}
-              onChange={(newHue) => onChange([newHue, sat, val])}
-            />
+          <HueSlider
+            hue={hue}
+            onChange={(newHue) => onChange([newHue, sat, val])}
+          />
         </Row>
       </Col>
     </Container>

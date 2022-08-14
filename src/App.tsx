@@ -12,7 +12,7 @@ const App = () => {
       <Row>
         <Col>
           <h1>Hello World!</h1>
-          <CanvasWrapper colours={colours} sketches={sketches}/>
+          <CanvasWrapper colours={colours} sketches={sketches} />
         </Col>
         <Col>
           <PanelFactory colours={colours} setColours={setColours} />

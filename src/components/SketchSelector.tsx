@@ -2,23 +2,25 @@ import { Sketch, Sketches } from "../sketches/sketches";
 
 interface SketchSelectorProps {
   colours: number[][];
-  setFuncName: React.Dispatch<React.SetStateAction<string>>
+  setFuncName: React.Dispatch<React.SetStateAction<string>>;
   sketches: Sketches;
 }
 
 export const SketchSelector: React.FC<SketchSelectorProps> = ({
   colours,
   setFuncName,
-  sketches
+  sketches,
 }) => {
   const usableOptions = Object.fromEntries(
-    Object.entries(sketches).filter(([key, _]) => parseInt(key) <= colours.length)
+    Object.entries(sketches).filter(
+      ([key, _]) => parseInt(key) <= colours.length
+    )
   );
 
   const renderOptions = (sketchList: Sketch[]) =>
     sketchList.map((sketch, idx) => <option key={idx}>{sketch.name}</option>);
 
-  const onChange = (e: React.ChangeEvent<HTMLSelectElement> ) => {
+  const onChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setFuncName(e.target.value);
   };
 

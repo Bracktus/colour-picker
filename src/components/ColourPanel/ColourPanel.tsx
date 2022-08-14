@@ -88,11 +88,7 @@ export const ColourPanel: React.FC<ColourPanelProps> = ({
 
           {showPicker && (
             <Row>
-              <Picker
-                onChange={(col) => setHSV(col)}
-                id={id}
-                HSV={HSV}
-              />
+              <Picker onChange={(col) => setHSV(col)} id={id} HSV={HSV} />
             </Row>
           )}
         </Col>
