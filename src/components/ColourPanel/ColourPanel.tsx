@@ -25,9 +25,6 @@ export const ColourPanel: React.FC<ColourPanelProps> = ({
   const RGB = HSVtoRGB(HSV[0], HSV[1] / 100, HSV[2] / 100);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const pickerWidth = 300;
-  const pickerHeight = 200;
-
   return (
     <div ref={containerRef} onClick={() => onClick()}>
       <Container
@@ -38,73 +35,67 @@ export const ColourPanel: React.FC<ColourPanelProps> = ({
           borderRadius: "5px",
         }}
       >
-        <Row>
-          <Col>
-            <Row style={{ paddingTop: "10px" }}>
-              <Col>
-                <CloseButton
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    removePanel();
-                  }}
-                />
-              </Col>
-            </Row>
+        <Col>
+          <Row style={{ paddingTop: "10px" }}>
+            <Col>
+              <CloseButton
+                onClick={(e) => {
+                  e.stopPropagation();
+                  removePanel();
+                }}
+              />
+            </Col>
+          </Row>
 
-            <Row style={{ paddingTop: "10px" }}>
-              <Col>
-                <p>{getHexString(RGB[0], RGB[1], RGB[2])}</p>
-              </Col>
-              <Col>
-                <Swatch colourString={formatColour("rgb", RGB)} />
-              </Col>
-            </Row>
+          <Row style={{ paddingTop: "10px" }}>
+            <Col>
+              <p>{getHexString(RGB[0], RGB[1], RGB[2])}</p>
+            </Col>
+            <Col>
+              <Swatch colourString={formatColour("rgb", RGB)} />
+            </Col>
+          </Row>
 
-            <Row>
-              <Col>
-                <p>HSV</p>
-              </Col>
-              <Col>
-                <TextBox
-                  colour={HSV}
-                  setColour={(col) => {
-                    setHSV(col);
-                  }}
-                  colourType={"HSV"}
-                />
-              </Col>
-            </Row>
+          <Row>
+            <Col>
+              <p>HSV</p>
+            </Col>
+            <Col>
+              <TextBox
+                colour={HSV}
+                setColour={(col) => {
+                  setHSV(col);
+                }}
+                colourType={"HSV"}
+              />
+            </Col>
+          </Row>
 
-            <Row>
-              <Col>
-                <p>RGB</p>
-              </Col>
-              <Col>
-                <TextBox
-                  colour={RGB}
-                  setColour={(col) => {
-                    setHSV(RGBtoHSV(col[0] / 255, col[1] / 255, col[2] / 255));
-                  }}
-                  colourType={"RGB"}
-                />
-              </Col>
-            </Row>
-          </Col>
+          <Row>
+            <Col>
+              <p>RGB</p>
+            </Col>
+            <Col>
+              <TextBox
+                colour={RGB}
+                setColour={(col) => {
+                  setHSV(RGBtoHSV(col[0] / 255, col[1] / 255, col[2] / 255));
+                }}
+                colourType={"RGB"}
+              />
+            </Col>
+          </Row>
 
           {showPicker && (
-            <Col>
-              <Row>
-                <Picker
-                  onChange={(col) => setHSV(col)}
-                  id={id}
-                  HSV={HSV}
-                  width={pickerWidth}
-                  height={pickerHeight}
-                />
-              </Row>
-            </Col>
+            <Row>
+              <Picker
+                onChange={(col) => setHSV(col)}
+                id={id}
+                HSV={HSV}
+              />
+            </Row>
           )}
-        </Row>
+        </Col>
       </Container>
     </div>
   );

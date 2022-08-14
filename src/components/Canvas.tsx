@@ -40,6 +40,9 @@ export const Canvas: React.FC<CanvasProps> = ({
         canvasRef.current.width,
         canvasRef.current.height
       );
+      canvasRef.current.width = canvasRef.current.offsetWidth;
+      canvasRef.current.height = canvasRef.current.offsetHeight;
+
       draw(context);
     }
   }, [context, draw]);
@@ -61,6 +64,7 @@ export const Canvas: React.FC<CanvasProps> = ({
 
   return (
     <canvas
+      style={{padding: "0px"}}
       ref={canvasRef}
       onMouseEnter={handleMouseEnter}
       onMouseOut={() => setMouseDown(false)}

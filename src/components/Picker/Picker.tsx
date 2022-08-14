@@ -8,26 +8,37 @@ interface PickerProps {
   onChange: (col: number[]) => void;
   id: number;
   HSV: number[];
-  width?: number;
-  height?: number;
 }
 
 export const Picker: React.FC<PickerProps> = ({
   onChange,
   id,
   HSV,
-  width = 100,
-  height = 100,
 }) => {
   const [hue, sat, val] = HSV;
 
-  const onClick = (e: React.MouseEvent, _context: CanvasRenderingContext2D) => {
-    const xPos = e.nativeEvent.offsetX;
-    const yPos = height - e.nativeEvent.offsetY;
-    onChange([hue, (xPos / width) * 100, (yPos / height) * 100]);
+  const mousePos = (context: CanvasRenderingContext2D) => {
+    return {
+      x: (sat / 100) * context.canvas.width,
+      y: context.canvas.height - ((val / 100) * context.canvas.height)
+    }
+  };
+
+  const onClick = (e: React.MouseEvent, context: CanvasRenderingContext2D) => {
+    const canvas = context.canvas;
+    const rect = canvas.getBoundingClientRect();
+
+    const width = canvas.width;
+    const height = canvas.height;
+
+    const xPos = (e.clientX - rect.left) / rect.width * width;
+    const yPos = (e.clientY - rect.top) / rect.height * height;
+    onChange([hue, (xPos / width) * 100, 100 - ((yPos / height) * 100)]);
   };
 
   const draw = (context: CanvasRenderingContext2D) => {
+    const width = context.canvas.width;
+    const height = context.canvas.height;
     //Draw the Gradient
     context.fillStyle = `hsl(${hue}, 100%, 50%)`;
     context.fillRect(0, 0, width, height);
@@ -44,53 +55,53 @@ export const Picker: React.FC<PickerProps> = ({
     context.fillStyle = yGrad;
     context.fillRect(0, 0, width, height);
 
-    context.strokeStyle = "rbga(0,0,0,1)";
+
 
     //Draw our cursor on the canvas
-    const x = (sat / 100) * width;
-    const y = height - (val / 100) * height;
+    const pos = mousePos(context);
+    const x = pos.x;
+    const y = pos.y;
+
+    context.strokeStyle = "rbg(255,255,255)";
+
     context.beginPath();
     context.moveTo(x, y + 3);
-    context.lineTo(x, y + 8);
+    context.lineTo(x, y + 6);
     context.stroke();
 
     context.beginPath();
     context.moveTo(x, y - 3);
-    context.lineTo(x, y - 8);
+    context.lineTo(x, y - 6);
     context.stroke();
 
     context.beginPath();
     context.moveTo(x + 3, y);
-    context.lineTo(x + 8, y);
+    context.lineTo(x + 6, y);
     context.stroke();
 
     context.beginPath();
     context.moveTo(x - 3, y);
-    context.lineTo(x - 8, y);
+    context.lineTo(x - 6, y);
     context.stroke();
+
+
   };
 
   return (
     <Container>
       <Col>
         <Row>
-          <div style={{ padding: "10px" }}>
             <Canvas
               name={`${id}_picker`}
               draw={draw}
               onClick={onClick}
-              width={width}
-              height={height}
             />
-          </div>
         </Row>
         <Row>
-          <div style={{ width: "100%" }}>
             <HueSlider
               hue={hue}
               onChange={(newHue) => onChange([newHue, sat, val])}
             />
-          </div>
         </Row>
       </Col>
     </Container>
