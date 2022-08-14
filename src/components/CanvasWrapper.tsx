@@ -1,60 +1,28 @@
 import { useState } from "react";
+import { Sketches } from "../sketches/sketches";
 import Canvas from "./Canvas";
+import { SketchSelector } from "./SketchSelector";
 
-export const CanvasWrapper = () => {
-  const [selected, setSelected] = useState("option-1");
-  const width = 400;
-  const height = 400;
+interface CanvasWrapperProps {
+  colours: number[][];
+  sketches: Sketches;
+}
 
-  const draw = (context: CanvasRenderingContext2D) => {
-    context.fillStyle = "#000000";
-    context.fillRect(0, 0, width, height);
-  };
+export const CanvasWrapper: React.FC<CanvasWrapperProps> = ({ colours, sketches }) => {
+  const width = 800;
+  const height = 800;
 
-  const draw2 = (context: CanvasRenderingContext2D) => {
-    context.fillStyle = "#ff6666";
-    context.fillRect(0, 0, width, height);
-  };
-
-  const getDraw = (context: CanvasRenderingContext2D) => {
-    switch (selected) {
-      case "option-1":
-        draw(context);
-        break;
-      case "option-2":
-        draw2(context);
-        break;
-    }
-  };
+  //Looks confusing but it's how to store a function in state
+  // https://dev.to/sarioglu/how-to-store-a-function-using-react-usestate-4ffh
+  const [funcName, setFuncName] = useState("Default");
+  const drawFunc = Object.values(sketches).flat().find(sketch => funcName === sketch.name).func;
 
   return (
     <div>
-      <form>
-        <label>
-          <input
-            type="radio"
-            name="canvas-radio"
-            value="option-1"
-            checked={selected === "option-1"}
-            onChange={() => setSelected("option-1")}
-          />
-          option-1
-        </label>
-
-        <label>
-          <input
-            type="radio"
-            name="canvas-radio"
-            value="option-2"
-            checked={selected === "option-2"}
-            onChange={() => setSelected("option-2")}
-          />
-          option-2
-        </label>
-      </form>
+      <SketchSelector setFuncName={setFuncName} colours={colours} sketches={sketches} />
       <Canvas
         name="my_canvas"
-        draw={getDraw}
+        draw={(ctx) => drawFunc(ctx, colours)}
         width={width}
         height={height}
       ></Canvas>

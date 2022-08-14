@@ -17,6 +17,7 @@ export const Canvas: React.FC<CanvasProps> = ({
   draw,
   onClick = nop,
 }) => {
+
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [context, setContext] = useState<CanvasRenderingContext2D | null>(null);
   const [mouseDown, setMouseDown] = useState(false);

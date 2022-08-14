@@ -3,6 +3,7 @@ import PanelFactory from "./components/PanelFactory";
 import { Row, Col, Container } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useState } from "react";
+import sketches from "./sketches/sketches";
 
 const App = () => {
   const [colours, setColours] = useState([[180, 50, 50]]);
@@ -11,7 +12,7 @@ const App = () => {
       <Row>
         <Col>
           <h1>Hello World!</h1>
-          <CanvasWrapper />
+          <CanvasWrapper colours={colours} sketches={sketches}/>
         </Col>
         <Col>
           <PanelFactory colours={colours} setColours={setColours} />
