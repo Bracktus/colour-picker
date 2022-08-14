@@ -1,8 +1,8 @@
 import React from "react";
 import { Col, Container, Row } from "react-bootstrap";
 
-import Canvas from "../Canvas";
-import HueSlider from "../HueSlider";
+import Canvas from "./Canvas";
+import HueSlider from "./HueSlider";
 
 interface PickerProps {
   onChange: (col: number[]) => void;

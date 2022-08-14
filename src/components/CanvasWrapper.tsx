@@ -1,7 +1,8 @@
 import { useState } from "react";
+import { Container, Row, Col } from "react-bootstrap";
 import { Sketches } from "../sketches/sketches";
+import SketchSelector from "./SketchSelector";
 import Canvas from "./Canvas";
-import { SketchSelector } from "./SketchSelector";
 
 interface CanvasWrapperProps {
   colours: number[][];
@@ -12,28 +13,31 @@ export const CanvasWrapper: React.FC<CanvasWrapperProps> = ({
   colours,
   sketches,
 }) => {
-  const width = 500;
-  const height = 500;
-
   const [funcName, setFuncName] = useState("Default");
   const drawFunc = Object.values(sketches)
     .flat()
     .find((sketch) => funcName === sketch.name).func;
 
   return (
-    <div>
-      <SketchSelector
-        setFuncName={setFuncName}
-        colours={colours}
-        sketches={sketches}
-      />
+    <Container>
+      <Col>
+        <Row>
+        <SketchSelector
+          setFuncName={setFuncName}
+          colours={colours}
+          sketches={sketches}
+        />
+        </Row>          
+      <Row>
       <Canvas
         name="my_canvas"
         draw={(ctx) => drawFunc(ctx, colours)}
-        width={width}
-        height={height}
-      ></Canvas>
-    </div>
+        height={500}
+        width={500}
+      />
+      </Row>
+      </Col>
+    </Container>
   );
 };
 

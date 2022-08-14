@@ -1,6 +1,7 @@
 import { horizontalSplit } from "./horizontalSplit";
 import { plainBox } from "./plainBox";
 import { verticalSplit } from "./verticalSplit";
+import { circleInside } from "./circleInside";
 
 export interface Sketch {
   name: string;
@@ -27,6 +28,11 @@ export const sketches: Sketches = {
       name: "Vertical Split",
       func: verticalSplit,
     },
+    {
+      name: "Circle",
+      func: circleInside
+    }
   ],
 };
 export default sketches;
+

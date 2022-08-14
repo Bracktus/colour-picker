@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import { CloseButton, Col, Container, Row } from "react-bootstrap";
-import Picker from "../Picker/Picker";
+import Picker from "../Picker";
 import Swatch from "../Swatch";
 import TextBox from "../TextBox/TextBox";
 import { formatColour, getHexString, HSVtoRGB, RGBtoHSV } from "./helpers";
