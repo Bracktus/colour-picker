@@ -9,7 +9,7 @@ export interface Sketch {
 }
 
 export interface Sketches {
-  [key: number]: Sketch[];
+  [key: string]: Sketch[];
 }
 
 export const sketches: Sketches = {

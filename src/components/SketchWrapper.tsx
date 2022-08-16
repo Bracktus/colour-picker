@@ -4,20 +4,26 @@ import { Sketches } from "../sketches/sketches";
 import SketchSelector from "./SketchSelector";
 import Canvas from "./Canvas";
 
-interface CanvasWrapperProps {
+interface SketchWrapperProps {
   colours: number[][];
   sketches: Sketches;
 }
 
-export const CanvasWrapper: React.FC<CanvasWrapperProps> = ({
+export const SketchWrapper: React.FC<SketchWrapperProps> = ({
   colours,
   sketches,
 }) => {
-  const [funcName, setFuncName] = useState("Default");
-  const drawFunc = Object.values(sketches)
-    .flat()
-    .find((sketch) => funcName === sketch.name).func;
+  const [funcName, setFuncName] = useState({key: "1", name: "Default"});
+  const getDrawFunc = () => {
+    const func = sketches[funcName.key].find(sketch => sketch.name === funcName.name);
+    if (func == null) throw Error("Couldn't find sketch");
+    return func
+  };
 
+  if ((/[0-9]+$/).test(funcName.key) && colours.length < parseInt(funcName.key)){
+    setFuncName({key: "1", name: "Default"})
+  }
+  
   return (
     <Container>
       <Col>
@@ -31,7 +37,7 @@ export const CanvasWrapper: React.FC<CanvasWrapperProps> = ({
       <Row>
       <Canvas
         name="my_canvas"
-        draw={(ctx) => drawFunc(ctx, colours)}
+        draw={(ctx) => getDrawFunc().func(ctx, colours)}
         height={500}
         width={500}
       />
@@ -41,4 +47,4 @@ export const CanvasWrapper: React.FC<CanvasWrapperProps> = ({
   );
 };
 
-export default CanvasWrapper;
+export default SketchWrapper;

@@ -1,6 +1,6 @@
 import { Row, Col, Container } from "react-bootstrap";
 import { useState } from "react";
-import CanvasWrapper from "./components/CanvasWrapper";
+import SketchWrapper from "./components/SketchWrapper";
 import PanelFactory from "./components/PanelFactory";
 import sketches from "./sketches/sketches";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -17,7 +17,7 @@ const App = () => {
       <Row>
 
         <Col>
-          <CanvasWrapper colours={colours} sketches={sketches} />
+          <SketchWrapper colours={colours} sketches={sketches} />
         </Col>
 
         <Col>
