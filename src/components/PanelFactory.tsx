@@ -18,8 +18,6 @@ export const PanelFactory: React.FC<PanelFactoryProps> = ({
     newCol: number[],
     prevState: number[][]
   ) => {
-    //Not functional style, but this'll be ran every time the mouse moves.
-    //So it needs to be pretty fast.
     const newState = prevState.slice();
     newState[index] = newCol;
     setColours(newState);
