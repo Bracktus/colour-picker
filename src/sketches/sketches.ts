@@ -4,11 +4,13 @@ import { verticalSplit } from "./verticalSplit";
 import { circleInside } from "./circleInside";
 import { strips } from "./strips";
 import { midSquare } from "./midSquare";
-import { invertedMidSquare } from "./invertedMidSquare";
+import { unevenSplit } from "./unevenSplit";
+import { border } from "./border";
+import { shadow } from "./shadow";
 
 export interface Sketch {
   name: string;
-  func: (a: CanvasRenderingContext2D, b: number[][]) => void;
+  func: (canvas: CanvasRenderingContext2D, cols: number[][]) => void;
 }
 
 export interface Sketches {
@@ -42,8 +44,16 @@ export const sketches: Sketches = {
       func: midSquare
     },
     {
-      name: "Inverted middle square",
-      func: invertedMidSquare
+      name: "Uneven split",
+      func: unevenSplit
+    },
+    {
+      name: "Bordered circle",
+      func: border
+    },
+    {
+      name: "Shadowed circle",
+      func: shadow
     }
   ],
   any: [
@@ -53,5 +63,5 @@ export const sketches: Sketches = {
     }
   ]
 };
-export default sketches;
 
+export default sketches;
