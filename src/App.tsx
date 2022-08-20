@@ -11,7 +11,7 @@ const App = () => {
     <Container>
 
       <Row>
-          <h1><a href="https://art.rchu.cc">art.rchu.cc</a> - Colour picker</h1>
+          <h1 style={{padding: "20px" }}><a href="https://art.rchu.cc">art.rchu.cc</a> - Colour picker</h1>
       </Row>
 
       <Row>
