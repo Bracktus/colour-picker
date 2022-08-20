@@ -11,7 +11,7 @@ export const unevenSplit = (
   const vSplitRatio = 0.4;
 
   //Right half of canvas
-  const rightWidth = width - (width * vSplitRatio);
+  const rightWidth = width - width * vSplitRatio;
   context.fillStyle = formatCol(col1);
   context.fillRect(width * vSplitRatio, 0, rightWidth, height);
 
@@ -24,5 +24,4 @@ export const unevenSplit = (
   const botY = height - topLen;
   context.fillStyle = formatCol(col3);
   context.fillRect(0, topLen, width * vSplitRatio, botY);
-}
-
+};

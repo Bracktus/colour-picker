@@ -9,9 +9,10 @@ const App = () => {
   const [colours, setColours] = useState([[180, 50, 50]]);
   return (
     <Container>
-
       <Row>
-          <h1 style={{padding: "20px" }}><a href="https://art.rchu.cc">art.rchu.cc</a> - Colour picker</h1>
+        <h1 style={{ padding: "20px" }}>
+          <a href="https://art.rchu.cc">art.rchu.cc</a> - Colour picker
+        </h1>
       </Row>
 
       <Row>

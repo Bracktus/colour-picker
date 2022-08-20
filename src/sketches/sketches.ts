@@ -35,33 +35,33 @@ export const sketches: Sketches = {
     },
     {
       name: "Circle",
-      func: circleInside
-    }
+      func: circleInside,
+    },
   ],
   3: [
     {
       name: "Middle square",
-      func: midSquare
+      func: midSquare,
     },
     {
       name: "Uneven split",
-      func: unevenSplit
+      func: unevenSplit,
     },
     {
       name: "Bordered circle",
-      func: border
+      func: border,
     },
     {
       name: "Shadowed circle",
-      func: shadow
-    }
+      func: shadow,
+    },
   ],
   any: [
     {
       name: "Strips",
-      func: strips
-    }
-  ]
+      func: strips,
+    },
+  ],
 };
 
 export default sketches;

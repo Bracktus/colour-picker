@@ -39,16 +39,16 @@ export const Canvas: React.FC<CanvasProps> = ({
 
   useEffect(() => {
     const onResize = () => {
-      if (canvasRef.current && context){
+      if (canvasRef.current && context) {
         canvasRef.current.width = canvasRef.current.offsetWidth;
         canvasRef.current.height = canvasRef.current.offsetHeight;
         draw(context);
       }
     };
 
-    window.addEventListener("resize", onResize)
+    window.addEventListener("resize", onResize);
     return () => window.removeEventListener("resize", onResize);
-  }, [context, draw])
+  }, [context, draw]);
 
   const handleMouseDown = (e: React.MouseEvent) => {
     context && onClick(e, context);
