@@ -3,6 +3,8 @@ import { plainBox } from "./plainBox";
 import { verticalSplit } from "./verticalSplit";
 import { circleInside } from "./circleInside";
 import { strips } from "./strips";
+import { midSquare } from "./midSquare";
+import { invertedMidSquare } from "./invertedMidSquare";
 
 export interface Sketch {
   name: string;
@@ -22,16 +24,26 @@ export const sketches: Sketches = {
   ],
   2: [
     {
-      name: "Horizontal Split",
+      name: "Horizontal split",
       func: horizontalSplit,
     },
     {
-      name: "Vertical Split",
+      name: "Vertical split",
       func: verticalSplit,
     },
     {
       name: "Circle",
       func: circleInside
+    }
+  ],
+  3: [
+    {
+      name: "Middle square",
+      func: midSquare
+    },
+    {
+      name: "Inverted middle square",
+      func: invertedMidSquare
     }
   ],
   any: [
