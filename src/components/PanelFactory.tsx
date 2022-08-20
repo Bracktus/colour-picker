@@ -29,6 +29,7 @@ export const PanelFactory: React.FC<PanelFactoryProps> = ({
   };
 
   const removeColour = (index: number) => {
+    if (index === 0 && colours.length === 1) return 
     setColours((prevState) => prevState.filter((_, idx) => idx !== index));
 
     const indexBeforeSelected =

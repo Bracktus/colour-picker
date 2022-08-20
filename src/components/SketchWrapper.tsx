@@ -14,21 +14,24 @@ export const SketchWrapper: React.FC<SketchWrapperProps> = ({
   sketches,
 }) => {
   const [funcName, setFuncName] = useState({key: "1", name: "Default"});
+  if ((/[0-9]+$/).test(funcName.key) && colours.length < parseInt(funcName.key)){
+    setFuncName({key: "1", name: "Default"});
+  }
+  
   const getDrawFunc = () => {
     const func = sketches[funcName.key].find(sketch => sketch.name === funcName.name);
     if (func == null) throw Error("Couldn't find sketch");
     return func
   };
 
-  if ((/[0-9]+$/).test(funcName.key) && colours.length < parseInt(funcName.key)){
-    setFuncName({key: "1", name: "Default"})
-  }
-  
   return (
     <Container>
       <Col>
+      {colours.length > 0 &&
+        <>
         <Row>
         <SketchSelector
+          funcName={funcName}
           setFuncName={setFuncName}
           colours={colours}
           sketches={sketches}
@@ -42,6 +45,8 @@ export const SketchWrapper: React.FC<SketchWrapperProps> = ({
         width={500}
       />
       </Row>
+      </>
+    }
       </Col>
     </Container>
   );

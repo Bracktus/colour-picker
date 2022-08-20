@@ -6,6 +6,7 @@ interface SketchSelectorProps {
     key: string;
     name: string;
   }>>
+  funcName: {key: string, name:string}
   sketches: Sketches;
 }
 
@@ -13,7 +14,9 @@ export const SketchSelector: React.FC<SketchSelectorProps> = ({
   colours,
   setFuncName,
   sketches,
+  funcName
 }) => {
+  console.log(funcName);
 
   const usableOptions = Object.fromEntries(
     Object.entries(sketches).filter(
@@ -34,11 +37,14 @@ export const SketchSelector: React.FC<SketchSelectorProps> = ({
     const re = /(.+)-(.+)/i
     const match = e.target.value.match(re);
     if (match == null) throw Error("Invalid sketch name");
-    setFuncName({key: match[1], name: match[2]});
+    else {
+      const [, funcKey, funcName] = match;
+      setFuncName({key: funcKey, name: funcName});
+    }
   };
 
   return (
-    <select onChange={onChange}>
+    <select value={`${funcName.key}-${funcName.name}`} onChange={onChange}>
       {Object.entries(usableOptions).map((opt, idx) => {
         const [group, sketchList] = opt;
         return (
