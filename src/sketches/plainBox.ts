@@ -5,7 +5,7 @@ export const plainBox = (
   colours: number[][]
 ) => {
   const width = context.canvas.width;
-  const height = context.canvas.width;
+  const height = context.canvas.height;
 
   const col = colours[0];
   context.fillStyle = formatCol(col);

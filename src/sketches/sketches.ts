@@ -7,6 +7,7 @@ import { midSquare } from "./midSquare";
 import { unevenSplit } from "./unevenSplit";
 import { border } from "./border";
 import { shadow } from "./shadow";
+import { quadSplit } from "./quadSplit";
 
 export interface Sketch {
   name: string;
@@ -55,6 +56,12 @@ export const sketches: Sketches = {
       name: "Shadowed circle",
       func: shadow,
     },
+  ],
+  4: [
+    {
+      name: "Quad split",
+      func: quadSplit
+    }
   ],
   any: [
     {
