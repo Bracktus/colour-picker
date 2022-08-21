@@ -18,7 +18,6 @@ export const SketchSelector: React.FC<SketchSelectorProps> = ({
   sketches,
   funcName,
 }) => {
-  console.log(funcName);
 
   const usableOptions = Object.fromEntries(
     Object.entries(sketches).filter(([key, _]) => {
