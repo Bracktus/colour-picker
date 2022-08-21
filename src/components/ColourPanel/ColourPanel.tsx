@@ -12,6 +12,8 @@ interface ColourPanelProps {
   removePanel: () => void;
   showPicker: boolean;
   onClick: () => void;
+  movePanelUp: () => void;
+  movePanelDown: () => void;
 }
 
 export const ColourPanel: React.FC<ColourPanelProps> = ({
@@ -21,6 +23,8 @@ export const ColourPanel: React.FC<ColourPanelProps> = ({
   removePanel,
   showPicker,
   onClick,
+  movePanelDown,
+  movePanelUp
 }) => {
   const RGB = HSVtoRGB(HSV[0], HSV[1] / 100, HSV[2] / 100);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -45,6 +49,12 @@ export const ColourPanel: React.FC<ColourPanelProps> = ({
                 }}
               />
             </Col>
+          </Row>
+
+          <Row>
+            <div>
+              <button onClick={movePanelUp}>Move panel up</button>
+            </div>
           </Row>
 
           <Row style={{ paddingTop: "10px" }}>
@@ -84,6 +94,12 @@ export const ColourPanel: React.FC<ColourPanelProps> = ({
                 colourType={"RGB"}
               />
             </Col>
+          </Row>
+          
+          <Row>
+            <div style={{paddingBottom: "10px"}}>
+              <button onClick={movePanelDown}>Move panel down</button>
+            </div>
           </Row>
 
           {showPicker && (

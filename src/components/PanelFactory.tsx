@@ -60,6 +60,27 @@ export const PanelFactory: React.FC<PanelFactoryProps> = ({
     setActivePickers((prevState) => prevState.map((_, idx) => idx === index));
   };
 
+  const movePanelUp = (index: number) => {
+    if (index === 0) return;
+    const copy = colours.slice();
+
+    const temp = copy[index];
+    copy[index] = copy[index - 1];
+    copy[index - 1] = temp;
+
+    setColours(copy);
+  };
+
+  const movePanelDown = (index: number) => {
+    if (index === colours.length - 1) return;
+    const copy = colours.slice();
+
+    const temp = copy[index];
+    copy[index] = copy[index + 1];
+    copy[index + 1] = temp;
+    setColours(copy);
+  };
+
   return (
     <Container>
       <Col>
@@ -72,6 +93,8 @@ export const PanelFactory: React.FC<PanelFactoryProps> = ({
               removePanel={() => removeColour(idx)}
               onClick={() => onPanelClick(idx)}
               showPicker={activePickers[idx]}
+              movePanelUp={() => movePanelUp(idx)}
+              movePanelDown={() => movePanelDown(idx)}
             />
           </Row>
         ))}
