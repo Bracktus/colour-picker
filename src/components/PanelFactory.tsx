@@ -99,7 +99,13 @@ export const PanelFactory: React.FC<PanelFactoryProps> = ({
           </Row>
         ))}
         <Row>
-          <input type="button" value="Add another colour" onClick={addColour} />
+          <div style={{display: "flex", justifyContent: "center", paddingTop: "10px"}}>
+          <input 
+            style={{width: "100%"}}
+            type="button" 
+            value="Add another colour" 
+            onClick={addColour} />
+        </div>
         </Row>
       </Col>
     </Container>

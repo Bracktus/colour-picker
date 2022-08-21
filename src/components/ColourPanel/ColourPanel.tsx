@@ -40,7 +40,7 @@ export const ColourPanel: React.FC<ColourPanelProps> = ({
         }}
       >
         <Col>
-          <Row style={{ paddingTop: "10px" }}>
+          <Row style={{ padding: "10px 0px" }}>
             <Col>
               <CloseButton
                 onClick={(e) => {
