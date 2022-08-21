@@ -18,7 +18,6 @@ export const SketchSelector: React.FC<SketchSelectorProps> = ({
   sketches,
   funcName,
 }) => {
-
   const usableOptions = Object.fromEntries(
     Object.entries(sketches).filter(([key, _]) => {
       if (key.match(/[0-9]+$/)) {
