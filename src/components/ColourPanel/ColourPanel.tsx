@@ -24,7 +24,7 @@ export const ColourPanel: React.FC<ColourPanelProps> = ({
   showPicker,
   onClick,
   movePanelDown,
-  movePanelUp
+  movePanelUp,
 }) => {
   const RGB = HSVtoRGB(HSV[0], HSV[1] / 100, HSV[2] / 100);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -95,9 +95,9 @@ export const ColourPanel: React.FC<ColourPanelProps> = ({
               />
             </Col>
           </Row>
-          
+
           <Row>
-            <div style={{paddingBottom: "10px"}}>
+            <div style={{ paddingBottom: "10px" }}>
               <button onClick={movePanelDown}>Move panel down</button>
             </div>
           </Row>

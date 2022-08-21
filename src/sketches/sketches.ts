@@ -8,6 +8,7 @@ import { unevenSplit } from "./unevenSplit";
 import { border } from "./border";
 import { shadow } from "./shadow";
 import { quadSplit } from "./quadSplit";
+import { sine } from "./sine";
 
 export interface Sketch {
   name: string;
@@ -31,12 +32,12 @@ export const sketches: Sketches = {
       func: horizontalSplit,
     },
     {
-      name: "Vertical split",
-      func: verticalSplit,
-    },
-    {
       name: "Circle",
       func: circleInside,
+    },
+    {
+      name: "Sine wave",
+      func: sine,
     },
   ],
   3: [
@@ -60,8 +61,8 @@ export const sketches: Sketches = {
   4: [
     {
       name: "Quad split",
-      func: quadSplit
-    }
+      func: quadSplit,
+    },
   ],
   any: [
     {
